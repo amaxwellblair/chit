@@ -38,7 +38,6 @@ func REPL(ip, user string) {
 		_, err := http.PostForm("http://"+ip+":9000/", v)
 		if err != nil {
 			fmt.Println(err)
-			return
 		}
 	}
 }
