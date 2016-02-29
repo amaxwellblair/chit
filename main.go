@@ -20,7 +20,7 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 func chatHandler(w http.ResponseWriter, r *http.Request) {
 	x = false
 	for x == false {
-		// Sleep will prevent the long polling from blocking
+		// Sleep will prevent the long pole from blocking
 		time.Sleep(100 * time.Millisecond)
 	}
 	fmt.Fprintf(w, body)
