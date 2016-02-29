@@ -14,10 +14,15 @@ func main() {
 	client := flag.Bool("client", false, "CLIENT recieves messaages from other chit-chat clients")
 	repl := flag.Bool("repl", false, "REPL allows you send messages")
 	ip := flag.String("ip", "", "IP is the address Client and REPL use to communicate to the server")
+	user := flag.String("user", "", "USER is what will precede your messages")
 	flag.Parse()
 
 	if *ip == "" {
 		fmt.Println("You have not entered in an ip address using the flag -ip")
+		return
+	}
+	if *user == "" {
+		fmt.Println("You have not entered in a username using the flag -user")
 		return
 	}
 
@@ -43,14 +48,8 @@ func main() {
 			fmt.Print("Enter text: ")
 			text, _ := reader.ReadString('\n')
 			v := url.Values{}
-			v.Add("body", text)
+			v.Add("body", *user+": "+text)
 			_, _ = http.PostForm("http://"+*ip+":9000/", v)
 		}
 	}
 }
-
-// client - recieves messages
-// long polling for messages
-// coordinator - collects messages from client and responds with the same message
-// only sends messages when a CLI sends a message to the coordinator
-// CLI - sends messages
