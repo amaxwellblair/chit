@@ -11,7 +11,8 @@ runs on a [digital ocean](https://www.digitalocean.com/pricing/) droplet (512 MB
 
 Once installed simply run the below to start your chit server:
  ```
-$ chit
+$ cd chit
+$ ./chit
  ```
 
 ### Chit-chat
@@ -29,7 +30,8 @@ This will be blank until you begin to receive messages
 
 To begin your client REPL run the below:
 ```
-$ chit-chat -repl -user=turing -ip=0.0.0.0
+$ cd chit/chit-chat
+$ ./chit-chat -repl -user=turing -ip=0.0.0.0
 ```
 This will begin with the `Enter text:`
 
