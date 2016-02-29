@@ -24,7 +24,7 @@ func chatHandler(w http.ResponseWriter, r *http.Request) {
 
 func streaming(w http.ResponseWriter, ch chan bool) {
 	for x == false {
-		time.Sleep(1 * time.Second)
+		time.Sleep(100 * time.Millisecond)
 	}
 	fmt.Fprintf(w, body)
 	ch <- true
