@@ -34,4 +34,4 @@ $ chit-chat -repl -user=turing -ip=0.0.0.0
 This will begin with the `Enter text:`
 
 What your client view and REPL could look like using tmux:
-![chat repl](http://www.amaxwellblair.com/images/chat_repl.png)
+<img width="500px" src="http://www.amaxwellblair.com/images/chat_repl.png" align="center">
