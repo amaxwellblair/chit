@@ -1,12 +1,12 @@
-### Primitive command line chat client
+## Primitive command line chat client
 
 Basic chat server called *chit* along with a REPL and client, called
 *chit-chat*, to read and write messages to a chatroom.
 
-##### Chit
+### Chit
 
 Install or build the binary on your chosen server. My particular implementation
-runs on [digital ocean](https://www.digitalocean.com/pricing/) droplet (512 MB SSD).
+runs on a [digital ocean](https://www.digitalocean.com/pricing/) droplet (512 MB SSD).
  Chit currently runs on port 9000, and can be changed if necessary.
 
 Once installed simply run the below to start your chit server:
@@ -14,7 +14,7 @@ Once installed simply run the below to start your chit server:
 $ chit
  ```
 
-##### Chit-chat
+### Chit-chat
 
 Install or build the binary on your chosen client. It should not be a problem
 running the client on most machines. Chit-chat serves as the REPL for entering
@@ -33,4 +33,5 @@ $ chit-chat -repl -user=turing -ip=0.0.0.0
 ```
 This will begin with the `Enter text:`
 
-What your client view and REPL could look like:
+What your client view and REPL could look like using tmux:
+![chat repl](http://www.amaxwellblair.com/images/chat_repl.png)
