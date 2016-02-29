@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"time"
 )
 
 var x bool
@@ -16,18 +17,21 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 
 func chatHandler(w http.ResponseWriter, r *http.Request) {
 	x = false
-	go streaming(w)
+	ch := make(chan bool)
+	go streaming(w, ch)
+	<-ch
 }
 
-func streaming(w http.ResponseWriter) {
+func streaming(w http.ResponseWriter, ch chan bool) {
 	for x == false {
-
+		time.Sleep(1 * time.Second)
 	}
 	fmt.Fprintf(w, body)
+	ch <- true
 }
 
 func main() {
 	http.HandleFunc("/", rootHandler)
-	http.HandleFunc("/chat/", chatHandler)
+	http.HandleFunc("/chat", chatHandler)
 	http.ListenAndServe(":9000", nil)
 }

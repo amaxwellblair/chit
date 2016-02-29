@@ -24,20 +24,21 @@ func main() {
 	if *client == true {
 		for {
 			response, err := http.Get("http://" + *ip + ":9000/chat")
+			defer response.Body.Close()
 			if err != nil {
 				fmt.Println(err.Error())
 			}
 
 			bs, err := ioutil.ReadAll(response.Body)
-
-			tr := string(bs)
-			fmt.Println(tr)
+			if string(bs) != "" {
+				tr := string(bs)
+				fmt.Println(tr)
+			}
 		}
 	}
 
 	if *repl == true {
 		for {
-			fmt.Println(*ip)
 			reader := bufio.NewReader(os.Stdin)
 			fmt.Print("Enter text: ")
 			text, _ := reader.ReadString('\n')
