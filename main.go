@@ -11,6 +11,7 @@ var body string
 func rootHandler(w http.ResponseWriter, r *http.Request) {
 	body = r.FormValue("body")
 	x = true
+	fmt.Println("yea we got it")
 }
 
 func chatHandler(w http.ResponseWriter, r *http.Request) {
