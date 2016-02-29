@@ -37,6 +37,7 @@ func main() {
 
 	if *repl == true {
 		for {
+			fmt.Println(*ip)
 			reader := bufio.NewReader(os.Stdin)
 			fmt.Print("Enter text: ")
 			text, _ := reader.ReadString('\n')

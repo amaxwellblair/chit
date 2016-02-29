@@ -16,6 +16,10 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 
 func chatHandler(w http.ResponseWriter, r *http.Request) {
 	x = false
+	go streaming(w)
+}
+
+func streaming(w http.ResponseWriter) {
 	for x == false {
 
 	}
