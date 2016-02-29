@@ -10,6 +10,39 @@ import (
 	"os"
 )
 
+// Client gets messages from chit server
+func Client(ip string) {
+	for {
+		response, err := http.Get("http://" + ip + ":9000/chat")
+		defer response.Body.Close()
+		if err != nil {
+			fmt.Println(err.Error())
+		}
+
+		bs, err := ioutil.ReadAll(response.Body)
+		if string(bs) != "" {
+			tr := string(bs)
+			fmt.Println(tr)
+		}
+	}
+}
+
+// REPL reads a given string evaluates and prints to the server via post
+func REPL(ip, user string) {
+	for {
+		reader := bufio.NewReader(os.Stdin)
+		fmt.Print("Enter text: ")
+		text, _ := reader.ReadString('\n')
+		v := url.Values{}
+		v.Add("body", user+": "+text)
+		_, err := http.PostForm("http://"+ip+":9000/", v)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+	}
+}
+
 func main() {
 	client := flag.Bool("client", false, "CLIENT recieves messaages from other chit-chat clients")
 	repl := flag.Bool("repl", false, "REPL allows you send messages")
@@ -21,35 +54,14 @@ func main() {
 		fmt.Println("You have not entered in an ip address using the flag -ip")
 		return
 	}
+	if *client == true {
+		Client(*ip)
+	}
 	if *user == "" {
 		fmt.Println("You have not entered in a username using the flag -user")
 		return
 	}
-
-	if *client == true {
-		for {
-			response, err := http.Get("http://" + *ip + ":9000/chat")
-			defer response.Body.Close()
-			if err != nil {
-				fmt.Println(err.Error())
-			}
-
-			bs, err := ioutil.ReadAll(response.Body)
-			if string(bs) != "" {
-				tr := string(bs)
-				fmt.Println(tr)
-			}
-		}
-	}
-
 	if *repl == true {
-		for {
-			reader := bufio.NewReader(os.Stdin)
-			fmt.Print("Enter text: ")
-			text, _ := reader.ReadString('\n')
-			v := url.Values{}
-			v.Add("body", *user+": "+text)
-			_, _ = http.PostForm("http://"+*ip+":9000/", v)
-		}
+		REPL(*ip, *user)
 	}
 }
