@@ -24,14 +24,15 @@ generic all commands using `chit-chat` require the chit server IP address.
 
 Once installed run the below to start your client view:
 ```
-$ chit-chat -client -ip=0.0.0.0
+$ cd chit/chit-chat
+$ ./chit-chat -client -ip=0.0.0.0
 ```
 This will be blank until you begin to receive messages
 
 To begin your client REPL run the below:
 ```
 $ cd chit/chit-chat
-$ ./chit-chat -repl -user=turing -ip=0.0.0.0
+$ ./chit-chat -repl -user=[username] -ip=0.0.0.0
 ```
 This will begin with the `Enter text:`
 
