@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"time"
 )
 
 // Client gets messages from chit server
@@ -34,7 +35,8 @@ func REPL(ip, user string) {
 		fmt.Print("Enter text: ")
 		text, _ := reader.ReadString('\n')
 		v := url.Values{}
-		v.Add("body", user+": "+text)
+		current_time := time.Now().Format("15:04:05")
+		v.Add("body", current_time+" | "+user+": "+text)
 		_, err := http.PostForm("http://"+ip+":9000/", v)
 		if err != nil {
 			fmt.Println(err)
