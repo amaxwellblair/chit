@@ -12,18 +12,19 @@ type handler struct {
 func (h *handler) chatHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
-		h.streaming(w, r)
+		h.polling(w, r)
 	case "POST":
 		h.broadcast(w, r)
 	}
 }
 
 func (h *handler) broadcast(w http.ResponseWriter, r *http.Request) {
-	body := r.FormValue("body")
-	h.message <- body
+	h.message <- r.FormValue("body")
+	close(h.message)
+	h.message = make(chan string)
 }
 
-func (h *handler) streaming(w http.ResponseWriter, r *http.Request) {
+func (h *handler) polling(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, <-h.message)
 }
 
