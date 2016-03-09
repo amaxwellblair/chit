@@ -35,7 +35,7 @@ func REPL(ip, user string) {
 		text, _ := reader.ReadString('\n')
 		v := url.Values{}
 		v.Add("body", user+": "+text)
-		_, err := http.PostForm("http://"+ip+":9000/", v)
+		_, err := http.PostForm("http://"+ip+":9000/chat", v)
 		if err != nil {
 			fmt.Println(err)
 		}
