@@ -3,31 +3,34 @@ package main
 import (
 	"fmt"
 	"net/http"
-	"time"
 )
 
-var x bool
-var body string
-
-// rootHandler recieves messages
-func rootHandler(w http.ResponseWriter, r *http.Request) {
-	body = r.FormValue("body")
-	x = true
-	fmt.Println("Message received: ", body)
+type handler struct {
+	message chan string
 }
 
-// chatHandler sends messages to clients connected to the chat room
-func chatHandler(w http.ResponseWriter, r *http.Request) {
-	x = false
-	for x == false {
-		// Sleep will prevent the long pole from blocking
-		time.Sleep(100 * time.Millisecond)
+func (h *handler) chatHandler(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case "GET":
+		h.polling(w, r)
+	case "POST":
+		h.broadcast(w, r)
 	}
-	fmt.Fprintf(w, body)
+}
+
+func (h *handler) broadcast(w http.ResponseWriter, r *http.Request) {
+	h.message <- r.FormValue("body")
+	close(h.message)
+	h.message = make(chan string)
+}
+
+func (h *handler) polling(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, <-h.message)
 }
 
 func main() {
-	http.HandleFunc("/", rootHandler)
-	http.HandleFunc("/chat", chatHandler)
+	ch := make(chan string)
+	h := handler{message: ch}
+	http.HandleFunc("/chat", h.chatHandler)
 	http.ListenAndServe(":9000", nil)
 }
