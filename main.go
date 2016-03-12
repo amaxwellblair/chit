@@ -6,7 +6,7 @@ import (
 )
 
 type handler struct {
-	ch      chan string
+	wait    chan bool
 	message string
 }
 
@@ -22,19 +22,19 @@ func (h *handler) chatHandler(w http.ResponseWriter, r *http.Request) {
 func (h *handler) broadcast(w http.ResponseWriter, r *http.Request) {
 	body := r.FormValue("body")
 	h.message = body
-	h.ch <- body
-	close(h.ch)
-	h.ch = make(chan string)
+	h.wait <- true
+	close(h.wait)
+	h.wait = make(chan bool)
 }
 
 func (h *handler) polling(w http.ResponseWriter, r *http.Request) {
-	<-h.ch
+	<-h.wait
 	fmt.Fprintf(w, h.message)
 }
 
 func main() {
-	ch := make(chan string)
-	h := handler{ch: ch}
+	ch := make(chan bool)
+	h := handler{wait: ch}
 	http.HandleFunc("/chat", h.chatHandler)
 	http.ListenAndServe(":9000", nil)
 }
