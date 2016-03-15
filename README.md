@@ -38,3 +38,7 @@ This will begin with the `Enter text:`
 
 What your client view and REPL could look like using tmux:
 <img width="500px" src="http://www.amaxwellblair.com/images/chat_repl.png" align="center">
+
+### Angular front end
+
+Also check out this implementation with an Angular front end: https://github.com/p4tin/simplegochat
